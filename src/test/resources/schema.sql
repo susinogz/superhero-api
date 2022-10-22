@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS Superhero;
+
+CREATE TABLE IF NOT EXISTS Superhero(
+    Id IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name varchar(250) NOT NULL UNIQUE,
+    Power varchar(250) NOT NULL
+);
