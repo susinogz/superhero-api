@@ -1,6 +1,7 @@
 INSERT INTO Superhero
-values
-(0, 'Batman','Stealth'),
-(1, 'Spiderman', 'Throw Spider webs'),
-(2, 'Superman', 'Fly'),
-(3, 'Antman', 'Shrink')
+(Name, Power)
+VALUES
+('Batman','Stealth'),
+('Spiderman', 'Throw Spider webs'),
+('Superman', 'Fly'),
+('Antman', 'Shrink');
