@@ -1,8 +1,6 @@
 package com.jesusfernandez.superheroapi.model.dto;
 
-import com.jesusfernandez.superheroapi.SuperheroAPI;
 import lombok.*;
-
 import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
