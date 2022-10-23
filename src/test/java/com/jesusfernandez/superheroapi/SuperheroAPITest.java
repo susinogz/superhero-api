@@ -23,7 +23,7 @@ public class SuperheroAPITest {
     @Test
     @DisplayName("Lists all superheroes")
     public void listSuperheroes() {
-        //TODO to implement
+
         List<SuperheroDTO> superheroes = superheroService.listSuperheroes();
 
         assertFalse(superheroes.isEmpty(), "Error. Must be not empty");
@@ -57,7 +57,7 @@ public class SuperheroAPITest {
     @Test
     @DisplayName("Inserts new superhero")
     public void insertSuperhero() {
-        //TODO to implement
+
         SuperheroDTO superhero = new SuperheroDTO("Doctor Strange", "Strange powers");
 
         SuperheroDTO insertedSuperhero = superheroService.insertSuperhero(superhero);
@@ -69,9 +69,10 @@ public class SuperheroAPITest {
     @Test
     @DisplayName("Updates superhero")
     public void updateSuperhero() {
-        //TODO to implement
+
         SuperheroDTO superhero = new SuperheroDTO("Batman", "New Superpower");
-        Optional<SuperheroDTO> updatedSuperhero = superheroService.updateSuperhero(superhero);
+
+        Optional<SuperheroDTO> updatedSuperhero = superheroService.updateSuperhero(1L, superhero);
 
         assertFalse(updatedSuperhero.isEmpty(), "Error. Updated Superhero must not be null");
         assertEquals(superhero, updatedSuperhero.get(), "Error. Both superhero DTOs must be equals");

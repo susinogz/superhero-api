@@ -75,12 +75,11 @@ public class SuperheroService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Optional<SuperheroDTO> updateSuperhero(SuperheroDTO superhero) {
+    public Optional<SuperheroDTO> updateSuperhero(Long id, SuperheroDTO superhero) {
         log.info("Updating superhero with Id: {}, Data: {}", superhero.getId(), superhero);
-        final String name = superhero.getName();
-        Optional<SuperheroDAO> oldSuperhero = repository.findByName(name);
+        Optional<SuperheroDAO> oldSuperhero = repository.findById(id);
         if (oldSuperhero.isEmpty()) {
-            log.info("No superhero found for name: {}", name);
+            log.info("No superhero found for id: {}", id);
             return Optional.empty();
         }
         SuperheroDAO newSuperhero = mapper.toDao(superhero);
