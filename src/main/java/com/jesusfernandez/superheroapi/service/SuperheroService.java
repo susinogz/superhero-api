@@ -28,6 +28,11 @@ public class SuperheroService {
         this.repository = repository;
     }
 
+    /**
+     * Lists all superheroes in database
+     *
+     * @return List with all Superheroes in database
+     */
     @Transactional(readOnly = true)
     public List<SuperheroDTO> listSuperheroes() {
         log.info("Listing all superheroes in database");
@@ -40,6 +45,12 @@ public class SuperheroService {
         return superheroes.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
+    /**
+     * Find a specific superhero in database by his id
+     *
+     * @param id Provided Superhero id
+     * @return An Optional which contains superhero dto for the provided id
+     */
     @Transactional(readOnly = true)
     public Optional<SuperheroDTO> getSuperhero(Long id) {
         log.info("Searching superhero by Id: {}", id);
@@ -52,6 +63,12 @@ public class SuperheroService {
         return superhero.map(mapper::toDto);
     }
 
+    /**
+     * Lists all superheroes which contains coincidences with provided word in his name
+     *
+     * @param word Provide word
+     * @return List with all coincidences
+     */
     @Transactional(readOnly = true)
     public List<SuperheroDTO> getSuperheroes(String word) {
         log.info("Searching superheroes with coincidences for word: {}", word);
@@ -65,6 +82,12 @@ public class SuperheroService {
     }
 
     //TODO find by name and check if it exists
+    /**
+     * Inserts provided superhero into database
+     *
+     * @param superhero Provided superhero
+     * @return Updated superhero
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public SuperheroDTO insertSuperhero(SuperheroDTO superhero) {
         SuperheroDAO superheroDAO = mapper.toDao(superhero);
@@ -74,6 +97,12 @@ public class SuperheroService {
         return mapper.toDto(superheroInserted);
     }
 
+    /**
+     * Finds provided superhero by name in database and if exists updates it
+     *
+     * @param superhero Provided superhero to be updated
+     * @return Updated superhero
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<SuperheroDTO> updateSuperhero(Long id, SuperheroDTO superhero) {
         log.info("Updating superhero with Id: {}, Data: {}", superhero.getId(), superhero);
@@ -89,6 +118,12 @@ public class SuperheroService {
         return Optional.of(mapper.toDto(savedSuperhero));
     }
 
+    /**
+     * Deletes superhero in database for provided id
+     *
+     * @param id Provided id
+     * @return Deleted superhero
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<SuperheroDTO> deleteSuperheroById(Long id) {
         log.info("Deleting superhero with Id: {}", id);

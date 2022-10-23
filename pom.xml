@@ -29,6 +29,9 @@
         <!-- Spring Boot-->
         <springboot.version>2.7.4</springboot.version>
 
+        <!-- Springdoc Open API -->
+        <springdoc.version>1.6.11</springdoc.version>
+
         <!-- Java Compiler version -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -69,6 +72,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${springboot.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- SpringDoc Open Api -->
+        <!-- SpringDoc Open API-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <!-- Lombok -->
