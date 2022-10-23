@@ -36,10 +36,6 @@ public class Controller {
     public ResponseEntity<List<SuperheroDTO>> listSuperheroes() {
         log.info("Request received to list all superheroes");
         List<SuperheroDTO> superheroes = superheroService.listSuperheroes();
-        if (superheroes.isEmpty()) {
-            log.info("Request finished with status 404");
-            return ResponseEntity.notFound().build();
-        }
         log.info("Request finished with status 200");
         return ResponseEntity.ok(superheroes);
     }
@@ -60,10 +56,6 @@ public class Controller {
     public ResponseEntity<List<SuperheroDTO>> getSuperheros(@PathVariable @NotBlank String word) {
         log.info("Request received to list superheroes with coincidences in the name with the word: {}", word);
         List<SuperheroDTO> superheroes = superheroService.getSuperheroes(word);
-        if (superheroes.isEmpty()) {
-            log.info("Request finished with status 404");
-            return ResponseEntity.notFound().build();
-        }
         log.info("Request finished with status 200");
         return ResponseEntity.ok(superheroes);
     }
