@@ -6,6 +6,10 @@ import com.jesusfernandez.superheroapi.model.dto.SuperheroDTO;
 import com.jesusfernandez.superheroapi.repository.SuperheroRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@CacheConfig(cacheNames = {"Superheroes", "SuperheroesCoincidences"})
 @Service
 @Slf4j
 public class SuperheroService {
@@ -33,6 +38,7 @@ public class SuperheroService {
      *
      * @return List with all Superheroes in database
      */
+    @Cacheable(value = "Superheroes")
     @Transactional(readOnly = true)
     public List<SuperheroDTO> listSuperheroes() {
         log.info("Listing all superheroes in database");
@@ -51,6 +57,7 @@ public class SuperheroService {
      * @param id Provided Superhero id
      * @return An Optional which contains superhero dto for the provided id
      */
+    @Cacheable(key = "#id", cacheNames = "Superheroes")
     @Transactional(readOnly = true)
     public Optional<SuperheroDTO> getSuperhero(Long id) {
         log.info("Searching superhero by Id: {}", id);
@@ -69,6 +76,7 @@ public class SuperheroService {
      * @param word Provide word
      * @return List with all coincidences
      */
+    @Cacheable(key = "#word", cacheNames = "SuperheroesCoincidences")
     @Transactional(readOnly = true)
     public List<SuperheroDTO> getSuperheroes(String word) {
         log.info("Searching superheroes with coincidences for word: {}", word);
@@ -88,6 +96,7 @@ public class SuperheroService {
      * @param superhero Provided superhero
      * @return Updated superhero
      */
+    @Cacheable(cacheNames = "Superheroes")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public SuperheroDTO insertSuperhero(SuperheroDTO superhero) {
         SuperheroDAO superheroDAO = mapper.toDao(superhero);
@@ -103,6 +112,7 @@ public class SuperheroService {
      * @param superhero Provided superhero to be updated
      * @return Updated superhero
      */
+    @CachePut(key = "#id", cacheNames = "Superheroes")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<SuperheroDTO> updateSuperhero(Long id, SuperheroDTO superhero) {
         log.info("Updating superhero with Id: {}, Data: {}", superhero.getId(), superhero);
@@ -124,6 +134,7 @@ public class SuperheroService {
      * @param id Provided id
      * @return Deleted superhero
      */
+    @CacheEvict(key = "#id", cacheNames = "Superheroes")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<SuperheroDTO> deleteSuperheroById(Long id) {
         log.info("Deleting superhero with Id: {}", id);
