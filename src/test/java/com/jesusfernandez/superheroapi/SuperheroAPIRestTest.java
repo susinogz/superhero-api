@@ -111,7 +111,7 @@ public class SuperheroAPIRestTest {
     public void getSuperheroCoincidences() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders
-                                .get("/superhero/list/{word}", "man")
+                                .get("/superhero/coincidences/{word}", "man")
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(
@@ -136,7 +136,7 @@ public class SuperheroAPIRestTest {
     public void blankWordGetSuperheroCoincidences() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders
-                                .get("/superhero/list/{word}", "")
+                                .get("/superhero/coincidences/{word}", "")
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(
@@ -256,7 +256,7 @@ public class SuperheroAPIRestTest {
     @DisplayName("Try to update superhero information with existing name in database")
     public void badNameUpdatingSuperhero() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/superhero/{id}", 1)
+                        .put("/superhero/{id}", 4)
                         .content(
                                 json(new SuperheroDTO("Batman", "Strong"))
                         )
@@ -338,7 +338,7 @@ public class SuperheroAPIRestTest {
     @DisplayName("Try to use negative id to delete superhero in database")
     public void badIdDeletingSuperhero() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/superhero/{id}", Integer.MAX_VALUE)
+                        MockMvcRequestBuilders.delete("/superhero/{id}", -1)
                 )
                 .andExpect(
                         MockMvcResultMatchers.status().isBadRequest()
