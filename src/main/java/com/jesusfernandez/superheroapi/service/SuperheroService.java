@@ -89,7 +89,6 @@ public class SuperheroService {
         return mapper.toDto(superheroes);
     }
 
-    //TODO find by name and check if it exists
     /**
      * Inserts provided superhero into database
      *
