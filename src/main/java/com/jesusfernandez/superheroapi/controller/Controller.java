@@ -1,5 +1,6 @@
 package com.jesusfernandez.superheroapi.controller;
 
+import com.jesusfernandez.superheroapi.annotation.interfaces.Timed;
 import com.jesusfernandez.superheroapi.model.dto.SuperheroDTO;
 import com.jesusfernandez.superheroapi.service.SuperheroService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +67,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @GetMapping(path = "list")
     public ResponseEntity<List<SuperheroDTO>> listSuperheroes() {
         log.info("Request received to list all superheroes");
@@ -104,6 +106,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @GetMapping(path = "{id}")
     public ResponseEntity<SuperheroDTO> getSuperhero(@PathVariable @PositiveOrZero Long id) {
         log.info("Request received to get superhero with Id: {}", id);
@@ -146,6 +149,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @GetMapping(path = "coincidences/{word}")
     public ResponseEntity<List<SuperheroDTO>> getSuperheros(@PathVariable @NotBlank String word) {
         log.info("Request received to list superheroes with coincidences in the name with the word: {}", word);
@@ -192,6 +196,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuperheroDTO> postSuperhero(@Valid @RequestBody SuperheroDTO superhero) throws URISyntaxException {
         log.info("Request received to insert new superhero: {}", superhero);
@@ -231,6 +236,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuperheroDTO> putSuperhero(@PathVariable @PositiveOrZero Long id, @Valid @RequestBody SuperheroDTO superhero) {
         log.info("Request received to update superhero with id: {}. New data {}", id, superhero);
@@ -273,6 +279,7 @@ public class Controller {
                                     "  \"path\": \"/v1/superhero-api\"\n" +
                                     "}")))
             })
+    @Timed
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteSuperheroById(@PathVariable @PositiveOrZero Long id) {
         log.info("Request received to delete superhero with Id: {}", id);
