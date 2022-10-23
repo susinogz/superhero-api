@@ -29,8 +29,11 @@
         <!-- Spring Boot-->
         <springboot.version>2.7.4</springboot.version>
 
-        <!-- Springdoc Open API -->
+        <!-- SpringDoc Open API -->
         <springdoc.version>1.6.11</springdoc.version>
+
+        <!-- Maven Compiler Plugin version-->
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
 
         <!-- Java Compiler version -->
         <maven.compiler.source>11</maven.compiler.source>
@@ -130,6 +133,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>11</source>
                     <target>11</target>
