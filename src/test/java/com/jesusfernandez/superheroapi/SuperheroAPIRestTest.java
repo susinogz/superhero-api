@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SuperheroAPI.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SuperheroAPI.class, properties = "spring.cache.type=NONE")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SuperheroAPIRestTest {
 

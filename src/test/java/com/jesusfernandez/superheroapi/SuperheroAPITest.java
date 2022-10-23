@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = SuperheroAPI.class)
+@SpringBootTest(classes = SuperheroAPI.class, properties = "spring.cache.type=NONE")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SuperheroAPITest {
 
