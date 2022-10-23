@@ -52,7 +52,7 @@ public class Controller {
         return ResponseEntity.ok(superhero.get());
     }
 
-    @GetMapping(path = "list/{word}")
+    @GetMapping(path = "coincidences/{word}")
     public ResponseEntity<List<SuperheroDTO>> getSuperheros(@PathVariable @NotBlank String word) {
         log.info("Request received to list superheroes with coincidences in the name with the word: {}", word);
         List<SuperheroDTO> superheroes = superheroService.getSuperheroes(word);
