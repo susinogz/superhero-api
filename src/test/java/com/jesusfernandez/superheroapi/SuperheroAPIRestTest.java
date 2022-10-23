@@ -71,8 +71,39 @@ public class SuperheroAPIRestTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.jsonPath("$.id").value(1)
+                );
+    }
+
+    @Test
+    @DisplayName("Try to get information of non exists Superhero in database")
+    public void notFoundSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .get("/superhero/{id}", Integer.MAX_VALUE)
+                                .accept(MediaType.APPLICATION_JSON)
                 )
-        ;
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isNotFound()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to get information of Superhero in database with negative id")
+    public void badIdGetSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .get("/superhero/{id}", -1)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
     }
 
     @Test
@@ -101,6 +132,22 @@ public class SuperheroAPIRestTest {
     }
 
     @Test
+    @DisplayName("Try to get superheroes from database for any match when param is blank")
+    public void blankWordGetSuperheroCoincidences() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .get("/superhero/list/{word}", "")
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
     @DisplayName("Save Superhero information into database")
     public void insertSuperhero() throws Exception {
         mockMvc.perform(
@@ -123,6 +170,72 @@ public class SuperheroAPIRestTest {
     }
 
     @Test
+    @DisplayName("Try to save a new superhero with null name in database")
+    public void nullNameInsertingSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/superhero")
+                                .content(
+                                        json(
+                                                new SuperheroDTO(null, "Strong")
+                                        )
+                                )
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to save a new superhero with blank name in database")
+    public void blankNameInsertingSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/superhero")
+                                .content(
+                                        json(
+                                                new SuperheroDTO("", "Strong")
+                                        )
+                                )
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to save a new Superhero with existing name in database")
+    public void badNameInsertingSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/superhero")
+                                .content(
+                                        json(
+                                                new SuperheroDTO("Batman", "Strong")
+                                        )
+                                )
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isConflict()
+                );
+    }
+
+    @Test
     @DisplayName("Updates Superhero information in database")
     public void updateSuperhero() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -140,6 +253,66 @@ public class SuperheroAPIRestTest {
     }
 
     @Test
+    @DisplayName("Try to update superhero information with existing name in database")
+    public void badNameUpdatingSuperhero() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/superhero/{id}", 1)
+                        .content(
+                                json(new SuperheroDTO("Batman", "Strong"))
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isConflict()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to update superhero information with null name")
+    public void nullNameUpdatingSuperhero() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/superhero/{id}", 1)
+                        .content(
+                                json(new SuperheroDTO(null, "Strong"))
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to update superhero information with blank name")
+    public void blankNameUpdatingSuperhero() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/superhero/{id}", 1)
+                        .content(
+                                json(new SuperheroDTO("", "Strong"))
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to update superhero information with negative id")
+    public void badIdUpdatingSuperhero() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/superhero/{id}", -1)
+                        .content(
+                                json(new SuperheroDTO("Batman", "Strong"))
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                );
+    }
+
+    @Test
     @DisplayName("Delete Superhero information by Id from database")
     public void deleteSuperhero() throws Exception {
         mockMvc.perform(
@@ -147,6 +320,28 @@ public class SuperheroAPIRestTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to delete non-existent superhero in database")
+    public void notFoundDeletingSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/superhero/{id}", Integer.MAX_VALUE)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isNotFound()
+                );
+    }
+
+    @Test
+    @DisplayName("Try to use negative id to delete superhero in database")
+    public void badIdDeletingSuperhero() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/superhero/{id}", Integer.MAX_VALUE)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
                 );
     }
 
